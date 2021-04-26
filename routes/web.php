@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Post;
+use App\Post;
 use Illuminate\Support\Facades\Route;
-
+use App\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,11 +21,17 @@ Route::get('/', function () {
         // ddd($posts[0]->title);
 });
 
-Route::get('posts/{post}', function ($slug) {
+Route::get('posts/{post:slug}', function (Post $post) {
 
     // Find a post by its slug and pass it to a view called "post"
     return view('post', [
-        'post' => Post::findOrFail($slug)
+        'post' => $post
     ]);
 
+});
+
+Route::get('categories/{category:slug}', function (Category $category) {
+    return view('posts', [
+        'posts' => $category->posts
+    ]);
 });
